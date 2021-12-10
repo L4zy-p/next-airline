@@ -42,6 +42,7 @@
     .item {
       display: flex;
       align-items: center;
+      max-width: 300px;
       .label {
         margin-right: 15px;
       }
@@ -50,13 +51,21 @@
       }
     }
   }
+  div {
+    width: 100%;
+    position: unset !important;
+  }
   img {
     width: 100%;
-    height: auto;
+    height: auto !important;
     mix-blend-mode: multiply;
     position: absolute;
-    bottom: -10%;
-    min-height: 500px;
+    bottom: -10% !important;
+    top: unset !important;
+    left: unset !important;
+    right: unset !important;
+    min-height: 500px !important;
     z-index: -1;
+    max-height: unset !important;
   }
 }
