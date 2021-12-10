@@ -1,75 +1,42 @@
-import { useState, useCallback } from "react";
-
-const emptyForm = {
-  passengerName: "",
-  airport: "",
-  timestamp: "",
-};
+import { Form, Input, Row, Col, Button, DatePicker } from 'antd'
+import { UserOutlined, EnvironmentOutlined } from '@ant-design/icons'
 
 function LogForm(props) {
   const { type, onSubmit } = props;
 
-  const [formData, setFormData] = useState(emptyForm);
+  const [form] = Form.useForm()
 
-  const handleSubmit = useCallback(() => {
-    onSubmit({ ...formData, type });
-    setFormData(emptyForm);
-  }, [formData, type, onSubmit]);
-
-  const handleChange = useCallback(({ target }) => {
-    setFormData((prev) => ({
-      ...prev,
-      [target.id]: target.value,
-    }));
-  }, []);
+  const handleSubmit = (formData) => {
+    onSubmit({ ...formData, type, timestamp: formData?.timestamp?.format('X') })
+    form.resetFields()
+  }
 
   return (
     <div style={{ display: "flex", columnGap: 8 }}>
-      <div
-        style={{ flex: 1, display: "flex", flexDirection: "column", rowGap: 4 }}
-      >
-        <label htmlFor="passengerName" style={{ fontWeight: "bold" }}>
-          Passenger Name:
-        </label>
-        <input
-          type="text"
-          id="passengerName"
-          name="passengerName"
-          value={formData.passengerName}
-          onChange={handleChange}
-        />
-      </div>
-      <div
-        style={{ flex: 1, display: "flex", flexDirection: "column", rowGap: 4 }}
-      >
-        <label htmlFor="airport" style={{ fontWeight: "bold" }}>
-          Airport:
-        </label>
-        <input
-          type="text"
-          id="airport"
-          name="airport"
-          value={formData.airport}
-          onChange={handleChange}
-        />
-      </div>
-      <div
-        style={{ flex: 1, display: "flex", flexDirection: "column", rowGap: 4 }}
-      >
-        <label htmlFor="timestamp" style={{ fontWeight: "bold" }}>
-          Timestamp:
-        </label>
-        <input
-          type="text"
-          id="timestamp"
-          name="timestamp"
-          value={formData.timestamp}
-          onChange={handleChange}
-        />
-      </div>
-      <div style={{ flex: 1, display: "flex", alignItems: "flex-end" }}>
-        <button onClick={handleSubmit}>Submit</button>
-      </div>
+      <Form form={form} layout='vertical' onFinish={handleSubmit}>
+        <Row gutter={[8, 8]}>
+          <Col span={8}>
+            <Form.Item name='passengerName' label='Passenger Name' rules={[{ required: true }]}>
+              <Input prefix={<UserOutlined />} />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='airport' label='Airport' rules={[{ required: true }]}>
+              <Input prefix={<EnvironmentOutlined />} />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item name='timestamp' label='Timestamp' rules={[{ required: true }]}>
+              <DatePicker showTime placeholder='' format='DD/MM/YYYY HH:mm:ss'/>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button type='primary' htmlType='submit'>Submit</Button>
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 }
