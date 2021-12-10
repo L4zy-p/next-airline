@@ -10,6 +10,10 @@
 
 - Feature: Boarding Pass
 
+### Github
+[https://github.com/L4zy-p/next-airline](https://github.com/L4zy-p/next-airline)
+### Demo
+[https://l4zy-p.github.io/next-airline](https://l4zy-p.github.io/next-airline/)
 
 
 
