@@ -160,6 +160,22 @@ export default function Home() {
               </Row>
             </Col>
           </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <h2>Boarding Pass</h2>
+            </Col>
+            <Col span={24}>
+              <Row gutter={[16, 16]} justify='space-between'>
+                {
+                  Object.keys(langdingTime)?.length > 0 && Object.keys(langdingTime)?.filter((key, i) =>
+                    langdingTime[key]?.arrivalTimestemp
+                  ).map((d, i) =>
+                    <BoardingPassCard item={{ ...langdingTime[d], passengerName: d }} key={i} />)
+                }
+              </Row>
+            </Col>
+          </Row>
         </main>
 
         <footer className={styles.footer}>
