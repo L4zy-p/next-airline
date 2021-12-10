@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
+import dayjs from 'dayjs'
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
@@ -9,6 +10,7 @@ import LogForm from "../src/LogForm";
 
 export default function Home() {
   const [logs, setLogs] = useState([]);
+  const [langdingTime, setLandingTime] = useState({})
 
   const handleAddLog = useCallback(
     (log) => {
@@ -18,6 +20,53 @@ export default function Home() {
     [logs]
   );
 
+  const getHourMinSec = (seconds) => {
+    const duration = dayjs.duration(seconds, 'second')
+    const h = duration.hours() || ''
+    const m = duration.minutes() || ''
+    const s = duration.seconds() || ''
+    return `${h && `${h} hr `}${m && `${m} min `}${s && `${s} sec`}`
+  }
+
+  const avgTimeLanding = () => {
+    const data = [...logs]
+    let langdingTimeObject = {}
+    data.forEach((d) => {
+      if (d.type === 'arrival') {
+        langdingTimeObject[d.passengerName] = {
+          ...langdingTimeObject[d.passengerName],
+          arrivalAirport: d?.airport,
+          arrivalTimestemp: d?.timestamp,
+          langingTime: langdingTimeObject?.[d.passengerName]?.departureTimestemp
+            ? getHourMinSec(dayjs(d?.timestamp * 1000).diff(dayjs(langdingTimeObject?.[d.passengerName]?.departureTimestemp * 1000), 'second'))
+            : null
+        }
+      } else {
+        langdingTimeObject[d.passengerName] = {
+          ...langdingTimeObject[d.passengerName],
+          departureAirport: d?.airport,
+          departureTimestemp: d?.timestamp,
+          langingTime: langdingTimeObject?.[d.passengerName]?.arrivalTimestemp
+            ? getHourMinSec(dayjs(langdingTimeObject?.[d.passengerName]?.arrivalTimestemp * 1000).diff(dayjs(d?.timestamp * 1000), 'second'))
+            : null
+        }
+      }
+    })
+    setLandingTime({ ...langdingTimeObject })
+  }
+
+  const printAvg = () => {
+    const data = { ...langdingTime }
+    Object.keys(data)?.length > 0 && Object.keys(data)?.filter((key, i) =>
+      data[key]?.arrivalTimestemp
+    ).map((key) => console.log(
+      'Passenger name: ',
+      key,
+      ' ',
+      `${data[key]?.departureAirport} - ${data[key]?.arrivalAirport}: ${getHourMinSec(dayjs(data[key]?.arrivalTimestemp * 1000).diff(dayjs(data[key]?.departureTimestemp * 1000), 'second'))}`
+    ))
+  }
+
   useEffect(() => {
     const fetch = async () => {
       const data = await FlightLogService.getLogs()
@@ -26,6 +75,12 @@ export default function Home() {
 
     fetch();
   }, []);
+
+  useEffect(() => {
+    if (logs?.length > 0) {
+      avgTimeLanding()
+    }
+  }, [logs])
 
   return (
     <div className={styles.container}>
@@ -45,6 +100,7 @@ export default function Home() {
         </p>
         <div className={styles.card} style={{ margin: 16, width: "100%" }}>
           <h2>Flight Logs</h2>
+          <button onClick={printAvg}>Print avg time to console</button>
           <LogCard style={{ width: "100%" }} data={logs}></LogCard>
         </div>
         <div className={styles.card} style={{ margin: 16, width: "100%" }}>
