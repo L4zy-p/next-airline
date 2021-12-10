@@ -1,7 +1,7 @@
 import { Form, Input, Row, Col, Button, DatePicker, Select } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
-function LogForm(props) {
+export function LogForm(props) {
   const { type, onSubmit, airportList } = props;
 
   const [form] = Form.useForm()
@@ -12,7 +12,7 @@ function LogForm(props) {
   }
 
   return (
-    <div style={{ display: "flex", columnGap: 8 }}>
+    <div style={{ display: 'flex', columnGap: 8 }}>
       <Form form={form} layout='vertical' onFinish={handleSubmit}>
         <Row gutter={[8, 8]}>
           <Col span={8}>
@@ -24,7 +24,7 @@ function LogForm(props) {
             <Form.Item name='airport' label='Airport' rules={[{ required: true }]}>
             <Select
                 showSearch
-                optionFilterProp="children"
+                optionFilterProp='children'
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
@@ -54,4 +54,3 @@ function LogForm(props) {
   );
 }
 
-export default LogForm;

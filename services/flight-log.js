@@ -1,22 +1,22 @@
 export class _FlightLogService {
   initialData = [
     {
-      passengerName: "cherprang",
-      airport: "bangkok",
+      passengerName: 'cherprang',
+      airport: 'bangkok',
       timestamp: 1630454400,
-      type: "departure",
+      type: 'departure',
     },
     {
-      passengerName: "sita",
-      airport: "chiangmai",
+      passengerName: 'sita',
+      airport: 'chiangmai',
       timestamp: 1630627200,
-      type: "departure",
+      type: 'departure',
     },
     {
-      passengerName: "cherprang",
-      airport: "tokyo",
+      passengerName: 'cherprang',
+      airport: 'tokyo',
       timestamp: 1630454405,
-      type: "arrival",
+      type: 'arrival',
     },
   ];
 

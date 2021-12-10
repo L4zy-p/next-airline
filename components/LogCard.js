@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { Spin } from 'antd'
-import LogItem from "./LogItem";
+import {LogItem} from '@components';
 
-function LogCard(props) {
+export function LogCard(props) {
   const { data } = props;
   const [logs, setLogs] = useState(data);
 
@@ -13,17 +13,17 @@ function LogCard(props) {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
         rowGap: 4,
       }}
     >
       <div
         style={{
-          display: "flex",
+          display: 'flex',
           marginBottom: 4,
           fontSize: 16,
-          fontWeight: "bold",
+          fontWeight: 'bold',
         }}
       >
         <span style={{ flex: 1 }}>Passenger Name</span>
@@ -41,4 +41,3 @@ function LogCard(props) {
   );
 }
 
-export default LogCard;
