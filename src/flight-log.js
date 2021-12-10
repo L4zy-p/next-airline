@@ -1,4 +1,4 @@
-export class FlightLogService {
+export class _FlightLogService {
   initialData = [
     {
       passengerName: "cherprang",
@@ -21,10 +21,13 @@ export class FlightLogService {
   ];
 
   getLogs() {
+    const that = this
     return new Promise(function (resolve) {
       setTimeout(function () {
-        resolve(this.initialData || []);
+        resolve(that.initialData || []);
       }, 2000);
     });
   }
 }
+
+export const FlightLogService = new _FlightLogService()

@@ -7,8 +7,6 @@ import LogCard from "../src/LogCard";
 import LogForm from "../src/LogForm";
 // import BoardingPassCard from "../src/BoardingPassCard";
 
-const flightLogService = new FlightLogService();
-
 export default function Home() {
   const [logs, setLogs] = useState([]);
 
@@ -22,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await flightLogService.getLogs();
+      const data = await FlightLogService.getLogs()
       setLogs(data);
     };
 
