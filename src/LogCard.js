@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Spin } from 'antd'
 import LogItem from "./LogItem";
 
 function LogCard(props) {
@@ -30,8 +31,11 @@ function LogCard(props) {
         <span style={{ flex: 1 }}>Timestamp</span>
         <span style={{ flex: 1 }}>Type</span>
       </div>
-      {logs.map((item) => (
-        <LogItem key={`${item.passengerName}`} item={item}></LogItem>
+      {
+        logs?.length === 0 && <Spin />
+      }
+      {logs.map((item, i) => (
+        <LogItem key={i} item={item}></LogItem>
       ))}
     </div>
   );
